@@ -17,6 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
+from rest_framework_simplejwt.views import (
+    TokenObtainSlidingView,
+    TokenRefreshSlidingView,
+)
+
+import account.urls
 
 from linkanizer.views import LinkViewSet, ListViewSet
 
@@ -28,6 +34,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
-    path("auth/", include("djoser.urls")),
-    path("auth/", include("djoser.urls.authtoken")),
+    path("auth/", include(account.urls)),
+    path("api/token/", TokenObtainSlidingView.as_view(), name="token_obtain"),
+    path("api/token/refresh", TokenRefreshSlidingView.as_view(), name="token_refresh"),
 ]

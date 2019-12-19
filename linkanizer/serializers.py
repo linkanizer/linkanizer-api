@@ -10,7 +10,7 @@ class ListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = List
-        fields = ("id", "name", "created", "modified")
+        fields = ("id", "name", "created", "modified", "owner")
 
 
 class LinkSerializer(serializers.ModelSerializer):
@@ -25,4 +25,4 @@ class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Link
-        fields = ("id", "title", "url", "list", "created", "modified")
+        fields = ("id", "title", "url", "list", "created", "modified", "owner")

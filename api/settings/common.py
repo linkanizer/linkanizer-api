@@ -12,14 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from datetime import timedelta
+from decouple import config
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "y0g3w(n=jiy&50p4g3qm=j8z%e@_b*pl=3mm%5a#*6c1u@ovy&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,9 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
-    "djoser",
     "django_extensions",
+    "django_filters",
     "corsheaders",
+    "anymail",
     "account.apps.AccountConfig",
     "linkanizer.apps.LinkanizerConfig",
 ]
@@ -122,6 +124,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
 
@@ -136,3 +139,25 @@ DJOSER = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+SIMPLE_JWT = {
+    "SLIDING_TOKEN_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=7),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.SlidingToken",),
+}
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config("SECRET_KEY")
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": config("MAILGUN_API_KEY"),
+    "MAILGUN_SENDER_DOMAIN": config("MAILGUN_SENDER_DOMAIN"),
+}
+
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+SERVER_EMAIL = config("SERVER_EMAIL")
+
+FRONTEND_BASE_URL = config("FRONTEND_BASE_URL")
+
+CELERY_BROKER_URL = "redis://"
