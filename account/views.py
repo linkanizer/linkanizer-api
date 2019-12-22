@@ -27,10 +27,9 @@ def request_login_email(request):
     token = SlidingToken.for_user(user)
 
     # send email to user
-    # TODO dynamic frontend URL from settings
     send_mail(
         subject="Your Linkanizer Login Link",
-        message=f"Navigate to {settings['FRONTEND_BASE_URL']}{token}",
+        message=f"Navigate to {settings.FRONTEND_BASE_URL}{token}",
         from_email="No Reply <noreply@tmk.name>",
         recipient_list=[user.email],
     )
