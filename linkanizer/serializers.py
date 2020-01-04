@@ -7,10 +7,11 @@ class ListSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     name = serializers.CharField()
+    order = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = List
-        fields = ("id", "name", "created", "modified", "owner")
+        fields = ("id", "name", "created", "modified", "owner", "order")
 
 
 class LinkSerializer(serializers.ModelSerializer):
@@ -18,6 +19,7 @@ class LinkSerializer(serializers.ModelSerializer):
 
     title = serializers.CharField()
     url = serializers.URLField()
+    order = serializers.IntegerField(read_only=True)
 
     list = serializers.PrimaryKeyRelatedField(
         queryset=List.objects.all(), write_only=True
@@ -25,4 +27,4 @@ class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Link
-        fields = ("id", "title", "url", "list", "created", "modified", "owner")
+        fields = ("id", "title", "url", "list", "created", "modified", "owner", "order")
