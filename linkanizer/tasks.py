@@ -1,8 +1,6 @@
-from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
-import requests
-from bs4 import BeautifulSoup
+import metadata_parser
 
 from .models import Link
 
@@ -10,11 +8,22 @@ from .models import Link
 @shared_task()
 def scrape_link_metadata(link_id):
     link = Link.objects.get(pk=link_id)
-    r = requests.get(link.url)
 
-    if r.ok:
-        soup = BeautifulSoup(r.text, "html.parser")
-        link.title = soup.title.string
-        link.save()
+    page = metadata_parser.MetadataParser(url=link.url)
+
+    title = page.get_metadata("title")
+    imageUrl = page.get_metadata_link("image")
+    description = page.get_metadata("metadata")
+
+    if title:
+        link.title = title
+
+    if imageUrl:
+        link.imageUrl = imageUrl
+
+    if description:
+        link.description = description
+
+    link.save()
 
     return True

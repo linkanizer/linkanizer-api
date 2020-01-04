@@ -110,6 +110,8 @@ class Link(models.Model):
 
     title = models.CharField(max_length=128)
     url = models.URLField()
+    imageUrl = models.URLField(default="")
+    description = models.TextField(default="")
 
     order = models.IntegerField(default=1)
 

@@ -18,7 +18,10 @@ class LinkSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     title = serializers.CharField()
-    url = serializers.URLField()
+    url = serializers.URLField(required=True)
+    imageUrl = serializers.URLField(read_only=True)
+    description = serializers.CharField(read_only=True)
+
     order = serializers.IntegerField(read_only=True)
 
     list = serializers.PrimaryKeyRelatedField(
@@ -27,4 +30,15 @@ class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Link
-        fields = ("id", "title", "url", "list", "created", "modified", "owner", "order")
+        fields = (
+            "id",
+            "title",
+            "url",
+            "list",
+            "created",
+            "modified",
+            "owner",
+            "order",
+            "imageUrl",
+            "description",
+        )
