@@ -6,3 +6,10 @@ class RequestLoginSerializer(serializers.Serializer):
 
     class Meta:
         fields = ("email",)
+
+
+class UserSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        fields = ("email",)

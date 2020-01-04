@@ -8,9 +8,8 @@ from rest_framework.response import Response
 
 from rest_framework_simplejwt.tokens import SlidingToken
 
-
 from .models import User
-from .serializers import RequestLoginSerializer
+from .serializers import RequestLoginSerializer, UserSerializer
 
 
 @api_view(["POST"])
@@ -22,7 +21,7 @@ def request_login_email(request):
 
     user_data = serializer.data
 
-    user, created = User.objects.get_or_create(email__iexact=user_data["email"])
+    user, created = User.objects.get_or_create(email=user_data["email"])
 
     token = SlidingToken.for_user(user)
 
@@ -35,3 +34,9 @@ def request_login_email(request):
     )
 
     return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def current_user(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
