@@ -11,6 +11,14 @@ services:
       DJANGO_SETTINGS_MODULE: "api.settings.production"
     volumes:
       - ${PWD}/prod.sqlite3:/code/prod.sqlite3
+  linkanizer_worker:
+    container_name: linkanizer_worker
+    build: .
+    command: celery -A api worker -l info
+    environment:
+      DJANGO_SETTINGS_MODULE: "api.settings.production"
+    volumes:
+      - ${PWD}/prod.sqlite3:/code/prod.sqlite3
   linkanizer_redis:
     container_name: linkanizer_redis
     image: redis:alpine
