@@ -1,7 +1,8 @@
 version: '3.7'
 
 services:
-  web:
+  linkanizer_web:
+    container_name: linkanizer_web
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
     ports:
@@ -9,8 +10,8 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: "api.settings.production"
     volumes:
-      - /tmp/linkanizer-api-static/:/code/staticfiles/
       - ${PWD}/prod.sqlite3:/code/prod.sqlite3
-  redis:
+  linkanizer_redis:
+    container_name: linkanizer_redis
     image: redis:alpine
     restart: always
