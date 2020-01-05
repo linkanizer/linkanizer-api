@@ -24,6 +24,7 @@ class LinkSerializer(serializers.ModelSerializer):
 
     order = serializers.IntegerField(read_only=True)
 
+    list_id = serializers.PrimaryKeyRelatedField(read_only=True)
     list = serializers.PrimaryKeyRelatedField(
         queryset=List.objects.all(), write_only=True
     )
@@ -35,6 +36,7 @@ class LinkSerializer(serializers.ModelSerializer):
             "title",
             "url",
             "list",
+            "list_id",
             "created",
             "modified",
             "owner",
