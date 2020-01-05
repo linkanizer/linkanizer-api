@@ -18,6 +18,5 @@ COPY . /code/
 # Copy production settings
 COPY .env.prod /code/.env
 
-RUN chmod +x docker-entrypoint.sh
-
-ENTRYPOINT ["/code/docker-entrypoint.sh"]
+# Run migrations
+RUN python /code/manage.py migrate
