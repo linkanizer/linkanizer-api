@@ -17,6 +17,3 @@ COPY . /code/
 
 # Copy production settings
 COPY .env.prod /code/.env
-
-# Run migrations
-RUN python /code/manage.py migrate
