@@ -1,6 +1,6 @@
 from .common import *  # noqa
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["lzr-api.tmk.name"]
 
 DEBUG = False
 

@@ -28,7 +28,7 @@ def request_login_email(request):
     # send email to user
     send_mail(
         subject="Your Linkanizer Login Link",
-        message=f"Navigate to {settings.FRONTEND_BASE_URL}{token}",
+        message=f"Navigate to {settings.FRONTEND_BASE_URL}/login/{token}",
         from_email="No Reply <noreply@tmk.name>",
         recipient_list=[user.email],
     )
