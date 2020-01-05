@@ -43,6 +43,16 @@ class ListManager(models.Manager):
 
             return instance
 
+    def fix_order_holes(self, obj):
+        """
+        on object delete, decrement order prop of all objects with order greater than deleted object
+        """
+        qs = self.get_queryset()
+
+        qs.filter(owner=obj.owner, order__gt=obj.order).exclude(pk=obj.pk).update(
+            order=F("order") - 1
+        )
+
 
 class List(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -101,6 +111,16 @@ class LinkManager(models.Manager):
             instance.save()
 
             return instance
+
+    def fix_order_holes(self, obj):
+        """
+        on object delete, decrement order prop of all objects with order greater than deleted object
+        """
+        qs = self.get_queryset()
+
+        qs.filter(list=obj.list, order__gt=obj.order).exclude(pk=obj.pk).update(
+            order=F("order") - 1
+        )
 
 
 class Link(models.Model):
