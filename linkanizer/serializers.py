@@ -21,6 +21,7 @@ class LinkSerializer(serializers.ModelSerializer):
     url = serializers.URLField(required=True)
     imageUrl = serializers.URLField(read_only=True)
     description = serializers.CharField(read_only=True)
+    visits = serializers.IntegerField(read_only=True)
 
     order = serializers.IntegerField(read_only=True)
 
@@ -43,4 +44,5 @@ class LinkSerializer(serializers.ModelSerializer):
             "order",
             "imageUrl",
             "description",
+            "visits",
         )

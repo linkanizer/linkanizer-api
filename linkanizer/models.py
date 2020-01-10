@@ -132,6 +132,7 @@ class Link(models.Model):
     url = models.URLField()
     imageUrl = models.URLField(default="")
     description = models.TextField(default="")
+    visits = models.IntegerField(default=0)
 
     order = models.IntegerField(default=1)
 

@@ -36,7 +36,17 @@ class LinkViewSet(viewsets.ModelViewSet):
 
         Link.objects.move(obj, new_order)
 
-        return Response({"success": True, "order": new_order})
+        return Response({"success": True})
+
+    @action(methods=["POST"], detail=True)
+    def visit(self, request, pk):
+        obj = self.get_object()
+
+        obj.visits += 1
+
+        obj.save()
+
+        return Response({"success": True})
 
 
 class ListViewSet(viewsets.ModelViewSet):
