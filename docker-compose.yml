@@ -4,7 +4,7 @@ services:
   linkanizer_web:
     container_name: linkanizer_web
     build: .
-    command: python /code/manage.py runserver 0.0.0.0:8000
+    entrypoint: /code/django-entrypoint.sh
     ports:
       - 19360:8000
     environment:
@@ -14,7 +14,7 @@ services:
   linkanizer_worker:
     container_name: linkanizer_worker
     build: .
-    command: celery -A api worker -l info
+    entrypoint: /code/worker-entrypoint.sh
     environment:
       DJANGO_SETTINGS_MODULE: "api.settings.production"
     volumes:

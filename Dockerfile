@@ -17,3 +17,6 @@ COPY . /code/
 
 # Copy production settings
 COPY .env.prod /code/.env
+
+RUN ["chmod", "+x", "/code/django-entrypoint.sh"]
+RUN ["chmod", "+x", "/code/worker-entrypoint.sh"]
