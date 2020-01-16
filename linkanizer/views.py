@@ -48,6 +48,27 @@ class LinkViewSet(viewsets.ModelViewSet):
 
         return Response({"success": True})
 
+    @action(methods=["POST"], detail=True)
+    def transfer(self, request, pk):
+        obj = self.get_object()
+        new_list_pk = request.data.get("list", None)
+
+        if new_list_pk is None:
+            return Response(
+                data={"error": "No list given"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            new_list = List.objects.get(pk=new_list_pk)
+        except List.DoesNotExist:
+            return Response(
+                data={"error": "Invalid list given"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        Link.objects.transfer(obj, new_list)
+
+        return Response({"success": True})
+
 
 class ListViewSet(viewsets.ModelViewSet):
     serializer_class = ListSerializer

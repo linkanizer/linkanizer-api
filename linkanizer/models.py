@@ -122,6 +122,23 @@ class LinkManager(models.Manager):
             order=F("order") - 1
         )
 
+    def transfer(self, obj, new_list):
+        # fix order of items in old list
+        self.fix_order_holes(obj)
+
+        # configure order in new list
+        results = new_list.links.aggregate(Max("order"))
+
+        current_order = results["order__max"]
+
+        if current_order is None:
+            current_order = 0
+
+        obj.order = current_order + 1
+        obj.list = new_list
+
+        obj.save()
+
 
 class Link(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
